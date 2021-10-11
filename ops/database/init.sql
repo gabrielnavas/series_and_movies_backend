@@ -1,0 +1,3 @@
+CREATE SCHEMA books;
+CREATE SCHEMA users;
+CREATE SCHEMA stores;
