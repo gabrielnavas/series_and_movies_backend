@@ -6,9 +6,6 @@ from modules.shared.models import BaseModel, schemas, peewee
 
 
 class Stream(BaseModel):
-    class Meta:
-        schema = schemas['streams']
-
     name = peewee.CharField(max_length=255, unique=True)
     time_paused = peewee.DateField()
 
