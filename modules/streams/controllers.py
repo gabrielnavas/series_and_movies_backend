@@ -26,7 +26,7 @@ async def create_stream(stream_body: StreamBody, response: Response):
 
     def stream_create(stream_body: StreamBody):
         time_pause_utc = datetime.strptime(
-            f"{stream_body.time_paused}+00:00", '%H:%M:%S%z').time()
+            stream_body.time_paused, '%h-%m-%s')
         stream_created = Stream.create(
             name=stream_body.name,
             time_paused=time_pause_utc
