@@ -18,8 +18,6 @@ class StreamBody(BaseModel):
 @router.post("/api/stream")
 async def create_stream(stream_body: StreamBody, response: Response):
 
-    # TODO
-    # Reafactory to class
     def str_to_time(time_paused: str) -> datetime.time:
         return datetime.strptime(time_paused, '%H-%M-%S').time()
 
