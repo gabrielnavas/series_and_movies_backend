@@ -4,7 +4,7 @@ from modules.shared.models import BaseModel, peewee
 
 class Stream(BaseModel):
     name = peewee.CharField(max_length=255, unique=True)
-    time_paused = peewee.DateField()
+    time_paused = peewee.TimeField()
 
     def __str__(self):
         return self.name
