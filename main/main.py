@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # streams router
-# app.include_router(router_streams)
+app.include_router(router_streams)
 
 
 @app.on_event("startup")
