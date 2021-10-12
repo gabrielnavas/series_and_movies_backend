@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # streams router
-app.include_router(router_streams)
+# app.include_router(router_streams)
 
 
 @app.on_event("startup")
@@ -31,4 +31,7 @@ async def startup_event():
 
 @app.get("/")
 async def root():
-    return {"message": "I AM WORKING. :)"}
+
+    import os
+    DATABASE_URL = os.environ['DATABASE_URL']
+    return {"message": DATABASE_URL}

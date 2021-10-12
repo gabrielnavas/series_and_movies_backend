@@ -11,7 +11,6 @@ DATABASE_URL = os.environ['DATABASE_URL']
 #                                   host='127.0.0.1', port=5435)
 
 pg_db = connect(DATABASE_URL)
-print(f'[*] DATABASE CONNECTED TO {DATABASE_URL}')
 
 
 class BaseModel(peewee.Model):
