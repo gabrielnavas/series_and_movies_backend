@@ -23,15 +23,10 @@ app.include_router(router_streams)
 
 @app.on_event("startup")
 async def startup_event():
-    import os
+    from main.init_tables_database import init_tables
+    # from main.init_dev_data import init_dev_data
 
-    env = os.getenv('ENV')
-    if env == 'dev':
-        from main.init_tables_database import init_tables
-        from main.init_dev_data import init_dev_data
-        for function_startup_before in [init_tables, init_dev_data]:
-            # function_startup_before()
-            pass
+    init_tables()
 
 
 @app.get("/")

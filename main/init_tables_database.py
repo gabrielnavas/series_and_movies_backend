@@ -1,2 +1,5 @@
+from modules.streams.models import Stream
+
+
 def init_tables():
-    pass
+    Stream.create_table()
