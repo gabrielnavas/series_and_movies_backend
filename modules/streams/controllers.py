@@ -19,6 +19,9 @@ async def create_stream(stream_body: StreamBody, response: Response):
 
     # TODO
     # Reafactory to class
+    def str_to_time(time_paused: str) -> datetime.time:
+        return datetime.strptime(time_paused, '%H-%M-%S').time()
+
     def stream_already_exists(stream_body: StreamBody) -> bool:
         stream_found = Stream.select().where(Stream.name == stream_body.name)
         if len(stream_found) > 0:
@@ -26,11 +29,9 @@ async def create_stream(stream_body: StreamBody, response: Response):
         return False
 
     def stream_create(stream_body: StreamBody):
-        time_pause_utc = datetime.strptime(
-            stream_body.time_paused, '%H-%M-%S').replace(tzinfo=timezone.utc).time()
         stream_created = Stream.create(
             name=stream_body.name,
-            time_paused=time_pause_utc
+            time_paused=str_to_time(stream_body.time_paused)
         )
         return stream_created
 
