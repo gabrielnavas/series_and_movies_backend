@@ -32,7 +32,6 @@ async def create_stream(stream_body: StreamBody, response: Response):
         return len(stream_founds) > 0
 
     def stream_create(stream_body: StreamBody, platform_name):
-
         return stream_created
 
     try:
