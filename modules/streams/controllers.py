@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from fastapi import APIRouter, status, Response, status
 from pydantic import BaseModel
+
 
 from modules.streams.models import Stream
 
@@ -26,7 +27,7 @@ async def create_stream(stream_body: StreamBody, response: Response):
 
     def stream_create(stream_body: StreamBody):
         time_pause_utc = datetime.strptime(
-            stream_body.time_paused, '%h-%m-%s')
+            stream_body.time_paused, '%H-%M-%S').replace(tzinfo=timezone.utc).time()
         stream_created = Stream.create(
             name=stream_body.name,
             time_paused=time_pause_utc
