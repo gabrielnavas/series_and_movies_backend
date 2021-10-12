@@ -18,4 +18,5 @@ def create_tables():
         ('Stream', Stream),
     ]
     for table in tables:
+        print(f'Creating table {table[0]}')
         table[1].create_table()
