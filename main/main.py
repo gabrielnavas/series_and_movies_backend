@@ -26,7 +26,7 @@ async def startup_event():
     from main.init_tables_database import init_tables
     # from main.init_dev_data import init_dev_data
 
-    # init_tables()
+    init_tables()
 
 
 @app.get("/")
