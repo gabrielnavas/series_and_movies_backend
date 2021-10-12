@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, status, Response, status
 from pydantic import BaseModel
@@ -10,7 +9,7 @@ router = APIRouter()
 
 class StreamBody(BaseModel):
     name: str
-    time_paused: datetime.time
+    time_paused: str
 
 
 @router.post("/api/streams")
