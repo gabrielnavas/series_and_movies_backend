@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from main.database_config import DatabaseConfig
+
 from modules.streams.controllers import router as router_streams
+from modules.platforms.controllers import router as router_platforms
 
 app = FastAPI()
 
@@ -19,14 +22,13 @@ app.add_middleware(
 
 # streams router
 app.include_router(router_streams)
+app.include_router(router_platforms)
 
 
 @app.on_event("startup")
 async def startup_event():
-    from main.init_tables_database import init_tables
-    # from main.init_dev_data import init_dev_data
-
-    init_tables()
+    database_config = DatabaseConfig()
+    database_config.handle()
 
 
 @app.get("/")
