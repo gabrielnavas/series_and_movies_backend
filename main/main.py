@@ -35,5 +35,4 @@ async def root():
     import os
     return {
         "01": os.environ['ENV'],
-        "02": os.getenv['ENV']
     }

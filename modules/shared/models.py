@@ -20,10 +20,10 @@ def get_dev_local_db_connection():
 def make_db_connection():
     pg_db = None
 
-    env_now = os.getenv['ENV']
-    if env_now == 'dev':
+    env_now = os.environ['ENV']
+    if env_now == 'prod':
         pg_db = get_heroku_db_connection()
-    elif env_now == 'prod':
+    elif env_now == 'dev':
         pg_db = get_dev_local_db_connection()
     else:
         raise Exception('NEED SETTING env=dev or env=prod')
