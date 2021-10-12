@@ -6,7 +6,7 @@ from modules.streams.controllers import router as router_streams
 app = FastAPI()
 
 origins = [
-    "*",
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
