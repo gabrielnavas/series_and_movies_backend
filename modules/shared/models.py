@@ -20,7 +20,7 @@ def get_dev_local_db_connection():
 def make_db_connection():
     pg_db = None
 
-    env_now = os.getenv['env']
+    env_now = os.getenv['ENV']
     if env_now == 'dev':
         pg_db = get_heroku_db_connection()
     elif env_now == 'prod':

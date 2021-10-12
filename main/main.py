@@ -33,5 +33,7 @@ async def startup_event():
 async def root():
 
     import os
-    DATABASE_URL = os.environ['DATABASE_URL']
-    return {"message": DATABASE_URL}
+    return {
+        "01": os.environ['ENV'],
+        "02": os.getenv['ENV']
+    }
