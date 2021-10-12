@@ -1,8 +1,5 @@
 from datetime import datetime
-
-import peewee
-
-from modules.shared.models import BaseModel, schemas, peewee
+from modules.shared.models import BaseModel, peewee
 
 
 class Stream(BaseModel):
