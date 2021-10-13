@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Optional
 from fastapi import APIRouter, status, Response
 from pydantic import BaseModel
+from playhouse.shortcuts import model_to_dict
 
 
 from modules.streams.models import Stream, Platform
@@ -49,8 +50,9 @@ async def create_stream(stream_body: StreamBody, response: Response):
             time_paused=str_to_time(stream_body.time_paused),
             platform=platform_found
         )
+        stream = model_to_dict(stream)
         response.status_code = status.HTTP_201_CREATED
-        return {"stream": stream.__data__}
+        return {"stream": stream}
     except Exception as ex:
         print(ex)
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -71,7 +73,7 @@ async def get_streams(response: Response, page: Optional[int] = 0, count_of_page
 
     try:
         streams = get_all_streams(page=page, count_of_page=count_of_page)
-        streams = [stream.__data__ for stream in streams]
+        streams = [model_to_dict(stream) for stream in streams]
         return {"streams": streams}
     except Exception as ex:
         print(ex)
