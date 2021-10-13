@@ -1,11 +1,15 @@
 from modules.streams.models import Stream
 from modules.platforms.models import Platform
+from main.env import ENV_NOW, DEV
 
 
 class DatabaseConfig:
+    is_create_table = ENV_NOW != DEV
+
     def handle(self):
         self.__create_tables()
-        self.__add_initial_data()
+        if not self.is_create_table:
+            self.__add_initial_data()
 
     def __add_initial_data(self):
         def add_platform_data():
