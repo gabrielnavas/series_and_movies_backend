@@ -22,6 +22,7 @@ async def get_streams(response: Response, page: Optional[int] = 0, count_of_page
 
     try:
         streams = get_all_streams(page=page, count_of_page=count_of_page)
+        print(streams)
         streams = [model_to_dict(stream) for stream in streams]
         response.status_code = status.HTTP_200_OK
         return {"streams": streams}
