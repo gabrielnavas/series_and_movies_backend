@@ -1,1 +1,1 @@
-web: ./start.sh --run_production
+web:  sh start.sh --run_production
