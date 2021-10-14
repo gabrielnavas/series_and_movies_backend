@@ -45,5 +45,5 @@ async def startup_event():
 @app.get("/")
 async def root():
     return {
-        "hello": "world",
+        "hello": "world2",
     }
