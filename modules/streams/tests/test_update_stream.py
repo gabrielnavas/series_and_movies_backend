@@ -82,8 +82,6 @@ def test_update_stream_204():
         "platform_id": platforms_created[0].id
     }
 
-    print(TARGET_PAYLOAD)
-
     response = client.put(
         f"api/stream/{TARGET_TO_UPDATE['id']}",
         headers={

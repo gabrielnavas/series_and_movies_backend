@@ -14,7 +14,6 @@ def get_dev_local_db_connection():
     database_name = 'series_movies_dev_db'
     pg_db = peewee.PostgresqlDatabase(database_name, user='postgres', password='dev_password',
                                       host='127.0.0.1', port=5433)
-    print(database_name)
     return pg_db
 
 
