@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "a42d186d-f479-4984-b225-578b5a7f07ab",
+		"name": "series and movies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "stream",
+			"item": [
+				{
+					"name": "create one",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Filme 56\",\n    \"time_paused\": \"03-05-21\",\n    \"platform_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/stream",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"stream"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get many paginate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/stream",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"stream"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update one",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"eita pega\",\n    \"time_paused\": \"03:05:21\",\n    \"platform_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/stream/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"stream",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete one",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/stream/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"stream",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "platform",
+			"item": [
+				{
+					"name": "get many paginate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/platform",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"platform"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "url"
+		},
+		{
+			"key": "local",
+			"value": "local"
+		},
+		{
+			"key": "heroku_route",
+			"value": "heroku_route"
+		}
+	]
+}
