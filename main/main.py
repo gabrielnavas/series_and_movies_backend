@@ -14,7 +14,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https://series-and-movies-frontend-2ngyhty0p-gabnavas.vercel.app/"
+    "https://series-and-movies-frontend-q31wfzp56-gabnavas.vercel.app/"
 ]
 
 app.add_middleware(
