@@ -17,40 +17,38 @@ class StreamBody(BaseModel):
 
 @router.post("/api/stream")
 async def create_stream(stream_body: StreamBody, response: Response):
-
     def str_to_time(time_paused: str) -> datetime.time:
         time_paused = time_paused.replace(':', '-')
         return datetime.strptime(time_paused, '%H-%M-%S').time()
 
-    def fetch_platform_exists(platform_id: int):
+    def get_platform(platform_id: int):
         try:
             return Platform.get(Platform.id == platform_id)
         except Exception as ex:
+            print(ex)
             return None
 
-    def stream_already_exists(stream_body: StreamBody) -> bool:
+    def get_stream(stream_body: StreamBody) -> bool:
         try:
-            Stream.get(Stream.name == stream_body.name)
-            return True
+            return Stream.get((Stream.name == stream_body.name) &
+                              (Stream.platform == stream_body.platform_id))
         except Exception as ex:
-            return False
-
-    def stream_create(stream_body: StreamBody, platform_name):
-        return stream_created
+            print(ex)
+            return None
 
     try:
-        platform_found = fetch_platform_exists(
+        platform_found = get_platform(
             platform_id=stream_body.platform_id
         )
         if platform_found == None:
             response.status_code = status.HTTP_400_BAD_REQUEST
             return {"detail": 'platform does not exist'}
 
-        if stream_already_exists(stream_body=stream_body):
+        if get_stream(stream_body=stream_body) != None:
             response.status_code = status.HTTP_400_BAD_REQUEST
-            return {"detail": 'stream already exists'}
+            return {"detail": 'Stream já existe na plataforma.'}
 
-        stream = stream_created = Stream.create(
+        stream = Stream.create(
             name=stream_body.name,
             time_paused=str_to_time(stream_body.time_paused),
             platform=platform_found
