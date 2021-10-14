@@ -18,17 +18,15 @@ STREAM_DATA_TEST = ({
     "name": 'Filme 1',
     "time_paused": '03-02-30',
     "platform_id": None
-}, {
-    "name": 'Filme 2',
-    "time_paused": '02-06-10',
-    "platform_id": None
-})
+},)
+
+platforms_created = []
 
 
 @pytest.fixture(autouse=True)
 def setUp():
     # BEFORE
-   # delete streams
+    # delete streams
     for data in STREAM_DATA_TEST:
         Stream.delete().execute()
 
@@ -36,26 +34,24 @@ def setUp():
     for name in PLATFORMS_DATA_TEST:
         Platform.delete().execute()
 
-    platforms_created = []
-
     # create create platforms
     for name in PLATFORMS_DATA_TEST:
         platform = Platform.create(name=name)
+
         platforms_created.append(platform)
 
-    # create streams with post
-    for data in STREAM_DATA_TEST:
-        choice_platform_id = random.choice(range(len(platforms_created)))
-        data['platform_id'] = platforms_created[choice_platform_id].id
-        response = client.post(
-            "api/stream",
-            headers={
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            json=data
-        )
-        assert response.status_code == 201
+    # create one stream
+    stream_data = STREAM_DATA_TEST[0]
+    stream_data['platform_id'] = platforms_created[0].id
+    response = client.post(
+        "api/stream",
+        headers={
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        json=data
+    )
+    assert response.status_code == 201
 
     yield
     # AFTER
@@ -70,7 +66,7 @@ def setUp():
 
 def test_get_streams_200():
     response = client.get(
-        "api/stream",
+        f"api/stream?platform_id={platforms_created[0].id}",
         headers={
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -81,14 +77,7 @@ def test_get_streams_200():
     assert response.status_code == 200
     assert len(data['streams']) == len(STREAM_DATA_TEST)
 
-    # assert data array 0
     assert data['streams'][0]['id'] > 0
-    assert data['streams'][0]['name'] in STREAM_DATA_TEST[1]['name']
+    assert data['streams'][0]['name'] in STREAM_DATA_TEST[0]['name']
     assert data['streams'][0]['time_paused'] in \
-        STREAM_DATA_TEST[1]['time_paused'].replace('-', ':')
-
-    # assert data array 1
-    assert data['streams'][1]['id'] > 0
-    assert data['streams'][1]['name'] in STREAM_DATA_TEST[0]['name']
-    assert data['streams'][1]['time_paused'] in \
         STREAM_DATA_TEST[0]['time_paused'].replace('-', ':')

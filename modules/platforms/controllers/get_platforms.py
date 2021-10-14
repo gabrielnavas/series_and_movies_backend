@@ -21,6 +21,7 @@ async def get_platforms(response: Response, page: Optional[int] = 0, count_of_pa
     try:
         platforms = get_all_platform(page=page, count_of_page=count_of_page)
         platforms = [platform.__data__ for platform in platforms]
+        print(platforms)
         return {"platforms": platforms}
     except Exception as ex:
         print(ex)
