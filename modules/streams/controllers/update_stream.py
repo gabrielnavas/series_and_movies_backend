@@ -1,21 +1,22 @@
 from datetime import datetime
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, status, Response, Request
 from pydantic import BaseModel
 
 
+from modules.shared.infra.errors_handler import LogHttpErrorHandler
 from modules.streams.models import Stream, Platform
 
 router = APIRouter()
 
 
-class StreamBody(BaseModel):
+class UpdateStreamBody(BaseModel):
     name: str
     time_paused: str
     platform_id: int
 
 
 @router.put("/api/stream/{stream_id}")
-async def get_stream(response: Response, stream_body: StreamBody, stream_id: int):
+async def update_stream(request: Request, response: Response, stream_body: UpdateStreamBody, stream_id: int):
 
     def str_to_time(time_paused: str) -> datetime.time:
         time_paused = time_paused.replace(':', '-')
@@ -61,6 +62,11 @@ async def get_stream(response: Response, stream_body: StreamBody, stream_id: int
 
         response.status_code = status.HTTP_204_NO_CONTENT
     except Exception as ex:
-        print(ex)
+        error_handler = LogHttpErrorHandler()
+        error_handler.handle(
+            request=request,
+            response=response,
+            error=e
+        )
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": 'server error'}

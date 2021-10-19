@@ -1,13 +1,14 @@
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, status, Response, Request
 
 
+from modules.shared.infra.errors_handler import LogHttpErrorHandler
 from modules.streams.models import Stream
 
 router = APIRouter()
 
 
 @router.delete("/api/stream/{stream_id}")
-async def get_stream(response: Response, stream_id: int):
+async def delete_stream(request: Request, response: Response, stream_id: int):
 
     def get_stream(stream_id: int):
         try:
@@ -35,6 +36,11 @@ async def get_stream(response: Response, stream_id: int):
 
         response.status_code = status.HTTP_204_NO_CONTENT
     except Exception as ex:
-        print(ex)
+        error_handler = LogHttpErrorHandler()
+        error_handler.handle(
+            request=request,
+            response=response,
+            error=e
+        )
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": 'server error'}

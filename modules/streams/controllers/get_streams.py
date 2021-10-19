@@ -1,15 +1,16 @@
 from typing import Optional
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, status, Response, Request
 from playhouse.shortcuts import model_to_dict
 
 
+from modules.shared.infra.errors_handler import LogHttpErrorHandler
 from modules.streams.models import Stream
 
 router = APIRouter()
 
 
 @router.get("/api/stream")
-async def get_streams(response: Response, platform_id: int, platform_name: Optional[str] = '', page: Optional[int] = 0, count_of_page: Optional[int] = 10):
+async def get_streams(request: Request, response: Response, platform_id: int, platform_name: Optional[str] = '', page: Optional[int] = 0, count_of_page: Optional[int] = 10):
     def get_all_streams_from_platform(platform_id: int, platform_name: Optional[str] = '', page: Optional[int] = 0, count_of_page: Optional[int] = 10):
         try:
             if len(platform_name) == 0:
@@ -33,7 +34,6 @@ async def get_streams(response: Response, platform_id: int, platform_name: Optio
                 )
             return streams
         except Exception as ex:
-            print(ex)
             return []
 
     try:
@@ -45,6 +45,11 @@ async def get_streams(response: Response, platform_id: int, platform_name: Optio
         streams = [model_to_dict(stream) for stream in streams]
         return {"streams": streams}
     except Exception as ex:
-        print(ex)
+        error_handler = LogHttpErrorHandler()
+        error_handler.handle(
+            request=request,
+            response=response,
+            error=e
+        )
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": 'server error'}

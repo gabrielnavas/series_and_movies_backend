@@ -1,19 +1,21 @@
-from fastapi import APIRouter, status, Response
+from typing import Any
+from fastapi import APIRouter, status, Response, Request
 from pydantic import BaseModel
 
 from modules.users.usecases.login import LoginUsecase, LoginValidation
 from modules.users.usecases.exceptions import ExceptionUser
+from modules.shared.infra.errors_handler import LogHttpErrorHandler
 
 router = APIRouter()
 
 
-class UserAuthBody(BaseModel):
+class LoginBody(BaseModel):
     email: str
     password: str
 
 
 @router.post("/api/user/login")
-async def login(user_body: UserAuthBody, response: Response):
+async def login(user_body: LoginBody, request: Request, response: Response):
     try:
         validation = LoginValidation()
         validation.validate(user_body.email, user_body.password)
@@ -28,10 +30,15 @@ async def login(user_body: UserAuthBody, response: Response):
             "token": result_usecase.token
         }
     except ExceptionUser as e:
-        print(e)
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"detail": str(e)}
     except Exception as e:
-        print(e)
+        error_handler = LogHttpErrorHandler()
+        error_handler.handle(
+            request=request,
+            response=response,
+            body=user_body,
+            error=e
+        )
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": f'server error'}

@@ -12,3 +12,11 @@ try:
     ENV_NOW = os.environ['ENV']
 except:
     ENV_NOW = None
+
+
+try:
+    CREATE_LOG_DATABASE = os.environ['CREATE_LOG_DATABASE']
+    LOG_ERROR_ON_CONSOLE = os.environ['LOG_ERROR_ON_CONSOLE']
+except:
+    CREATE_LOG_DATABASE = None
+    LOG_ERROR_ON_CONSOLE = None

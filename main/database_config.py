@@ -1,6 +1,7 @@
 from modules.streams.models import Stream
 from modules.platforms.models import Platform
 from modules.users.infra.models import User
+from modules.shared.infra.errors_handler import LogHTTPError
 
 
 class InitData:
@@ -25,7 +26,7 @@ class InitData:
 
 class DatabaseConfig:
 
-    __models = [Platform, Stream, User]
+    __models = [Platform, Stream, User, LogHTTPError]
     __initital_data = InitData()
 
     def handle(self):

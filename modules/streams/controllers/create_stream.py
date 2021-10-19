@@ -1,22 +1,22 @@
 from datetime import datetime
-from fastapi import APIRouter, status, Response
+from fastapi import APIRouter, status, Response, Request
 from pydantic import BaseModel
 from playhouse.shortcuts import model_to_dict
 
-
+from modules.shared.infra.errors_handler import LogHttpErrorHandler
 from modules.streams.models import Stream, Platform
 
 router = APIRouter()
 
 
-class StreamBody(BaseModel):
+class CreateStreamBody(BaseModel):
     name: str
     time_paused: str
     platform_id: int
 
 
 @router.post("/api/stream")
-async def create_stream(stream_body: StreamBody, response: Response):
+async def create_stream(stream_body: CreateStreamBody, request: Request, response: Response):
     def str_to_time(time_paused: str) -> datetime.time:
         time_paused = time_paused.replace(':', '-')
         return datetime.strptime(time_paused, '%H-%M-%S').time()
@@ -28,7 +28,7 @@ async def create_stream(stream_body: StreamBody, response: Response):
             print(ex)
             return None
 
-    def get_stream(stream_body: StreamBody) -> bool:
+    def get_stream(stream_body: CreateStreamBody) -> bool:
         try:
             return Stream.get((Stream.name == stream_body.name) &
                               (Stream.platform == stream_body.platform_id))
@@ -57,6 +57,12 @@ async def create_stream(stream_body: StreamBody, response: Response):
         response.status_code = status.HTTP_201_CREATED
         return {"stream": stream}
     except Exception as ex:
-        print(ex)
+        error_handler = LogHttpErrorHandler()
+        error_handler.handle(
+            request=request,
+            response=response,
+            body=stream_body,
+            error=e
+        )
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": 'server error'}
