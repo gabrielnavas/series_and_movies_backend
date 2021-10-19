@@ -10,6 +10,9 @@ from modules.streams.controllers.delete_stream import router as router_delete_st
 
 from modules.platforms.controllers.get_platforms import router as router_get_platforms
 
+from modules.users.controllers.register import router as router_register
+from modules.users.controllers.login import router as router_login
+
 app = FastAPI()
 
 origins = [
@@ -34,6 +37,10 @@ app.include_router(router_delete_stream)
 
 # platforms router
 app.include_router(router_get_platforms)
+
+# user router
+app.include_router(router_register)
+app.include_router(router_login)
 
 
 @app.on_event("startup")

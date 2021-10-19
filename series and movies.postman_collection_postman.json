@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Filme 56\",\n    \"time_paused\": \"03-05-21\",\n    \"platform_id\": 3\n}",
+							"raw": "{\n    \"name\": \"Filme 55261\",\n    \"time_paused\": \"03-05-21\",\n    \"platform_id\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,13 +41,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/stream",
+							"raw": "{{url}}/api/stream?platform_id=1",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"stream"
+							],
+							"query": [
+								{
+									"key": "platform_id",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -118,6 +124,66 @@
 							"path": [
 								"api",
 								"platform"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"asdasda\",\n    \"last_name\": \"Silva\",\n    \"email\": \"julio@email.com\",\n    \"password\": \"123456\",\n    \"password_confirmation\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"julio@email.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
 							]
 						}
 					},
